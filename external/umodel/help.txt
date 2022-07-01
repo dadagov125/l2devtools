@@ -1,0 +1,122 @@
+UE viewer / exporter
+Usage: umodel [command] [options] <package> [<object> [<class>]]
+
+    <package>       name of package to load, without file extension
+    <object>        name of object to load
+    <class>         class of object to load (useful, when trying to load
+                    object with ambiguous name)
+
+Commands:
+    -view           (default) visualize object; when no <object> specified
+                    will load whole package
+    -list           list contents of package
+    -export         export specified object or whole package
+    -taglist        list of tags to override game autodetection
+    -version        display umodel version information
+    -help           display this help page
+
+Developer commands:
+    -log=file       write log to the specified file
+    -dump           dump object information to console
+    -pkginfo        load package and display its information
+
+Options:
+    -path=PATH      path to game installation directory; if not specified,
+                    program will search for packages in current directory
+    -game=tag       override game autodetection (see -taglist for variants)
+    -pkg=package    load extra package (in addition to <package>)
+    -obj=object     specify object(s) to load
+    -gui            force startup UI to appear
+
+Compatibility options:
+    -nomesh         disable loading of SkeletalMesh classes in a case of
+                    unsupported data format
+    -noanim         disable loading of MeshAnimation classes
+    -nostat         disable loading of StaticMesh class
+    -notex          disable loading of Material classes
+    -nolightmap     disable loading of Lightmap textures
+    -sounds         allow export of sounds
+    -3rdparty       allow 3rd party asset export (ScaleForm, FaceFX)
+    -lzo|lzx|zlib   force compression method for fully-compressed packages
+
+Platform selection:
+    -ps3            override platform autodetection to PS3
+    -ios            set platform to iOS (iPhone/iPad)
+
+Viewer options:
+    -meshes         view meshes only
+    -materials      view materials only (excluding textures)
+    -anim=<set>     specify AnimSet to automatically attach to mesh
+
+Export options:
+    -out=PATH       export everything into PATH instead of the current directory
+    -all            export all linked objects too
+    -uncook         use original package name as a base export directory
+    -groups         use group names instead of class names for directories
+    -uc             create unreal script when possible
+    -md5            use md5mesh/md5anim format for skeletal mesh
+    -lods           export all available mesh LOD levels
+    -dds            export textures in DDS format whenever possible
+    -notgacomp      disable TGA compression
+    -nooverwrite    prevent existing files from being overwritten (better
+                    performance)
+
+Supported resources for export:
+    SkeletalMesh    exported as ActorX psk file or MD5Mesh
+    MeshAnimation   exported as ActorX psa file or MD5Anim
+    VertMesh        exported as Unreal 3d file
+    StaticMesh      exported as psk file with no skeleton (pskx)
+    Texture         exported in tga or dds format
+    Sounds          file extension depends on object contents
+    ScaleForm       gfx
+    FaceFX          fxa
+    Sound           exported "as is"
+
+List of supported games:
+Unreal engine 1:
+  Unreal 1, Unreal Tournament 1 (UT99), The Wheel of Time, DeusEx, Rune,
+  Undying
+
+Unreal engine 2:
+  Unreal Tournament 2003,2004, Unreal Championship, Splinter Cell 1-4,
+  Splinter Cell: Conviction, Lineage 2, Land of Chaos Online (LOCO),
+  Battle Territory Online, Star Wars: Republic Commando, XIII, UE2Runtime,
+  Tribes: Vengeance, SWAT 4, Bioshock, Bioshock 2, Ragnarok Online 2, Exteel,
+  America's Army 2, Vanguard: Saga of Heroes, Killing Floor
+
+Unreal engine 2X:
+  Unreal Championship 2: The Liandri Conflict
+
+Unreal engine 3:
+  Unreal Tournament 3, Gears of War, Gears of War 2, Gears of War 3,
+  Gears of War: Judgment, Infinity Blade, Bulletstorm, EndWar,
+  Rainbow 6: Vegas 2, Mass Effect, Mass Effect 2, Mass Effect 3,
+  BlackSite: Area 51, Mortal Kombat vs. DC Universe, Mortal Kombat,
+  Injustice: Gods Among Us, Turok, Fury, TNA iMPACT!, WWE All Stars,
+  Stranglehold, Army of Two, Destroy All Humans, Huxley, The Last Remnant,
+  Mirror's Edge, X-Men Origins: Wolverine, Magna Carta 2,
+  Batman: Arkham Asylum, Batman: Arkham City, Batman: Arkham Origins,
+  Crime Craft, AVA Online, Frontlines: Fuel of War, Homefront,
+  50 Cent: Blood on the Sand, Borderlands, Borderlands 2,
+  Brothers in Arms: Hell's Highway, Aliens: Colonial Marines, Dark Void,
+  Legendary: Pandora's Box, TERA: The Exiled Realm of Arborea, Blade & Soul,
+  Alpha Protocol, All Points Bulletin, The Bourne Conspiracy,
+  Transformers: War for Cybertron, Transformers: Dark of the Moon,
+  Transformers: Fall of Cybertron, America's Army 3, Mortal Online,
+  Enslaved: Odyssey to the West, Medal of Honor: Airborne,
+  Medal of Honor 2010, Alice: Madness Returns, Berkanix, Undertow,
+  Singularity, Nurien, Hunted: The Demon's Forge,
+  Dungeons & Dragons: Daggerdale, Shadows of the Damned,
+  Rise of the Argonauts, Thor: God of Thunder, Gunslayer Legend,
+  Special Force 2, Tribes: Ascend, Dishonored, Fable: The Journey,
+  Fable Anniversary, DmC: Devil May Cry, Hawken, Passion Leads Army, Tao Yuan,
+  Bioshock Infinite, Remember Me, Life is Strange, Marvel Heroes,
+  Lost Planet 3, Yaiba: Ninja Gaiden Z, The Bureau: XCOM Declassified, Thief,
+  Murdered: Soul Suspect, Seal of Vajra, The Vanishing of Ethan Carter,
+  Dust 514, Guilty Gear Xrd, Gigantic
+
+Unreal engine 4:
+  Unreal engine 4.0, Unreal engine 4.1, Unreal engine 4.2, Unreal engine 4.3,
+  Unreal engine 4.4, Unreal engine 4.5, Unreal engine 4.6, Unreal engine 4.7
+
+For details and updates please visit http://www.gildor.org/en/projects/umodel
