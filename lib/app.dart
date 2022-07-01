@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:l2_devtools/widgets/home_screen.dart';
+import 'package:l2_devtools/screens/home_screen.dart';
+
+import 'widgets/import_skills.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -7,11 +9,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue ,
       ),
-      home: const HomeScreen(title: 'Flutter Demo Home Page'),
+      home:  ImportSkills(),
     );
   }
 }
