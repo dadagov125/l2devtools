@@ -212,6 +212,21 @@ class _ImportSkillsState extends State<ImportSkills> {
           ['-d', 'external/ddf/hf/skillname-e.ddf', outputDec, outputTxt]);
       _log(result.stdout);
     }
+
+    var skillGrp = skillGrpCtrl.text;
+
+    var outputDec = path.join('data', 'skills', 'dec', skillGrp);
+    var result = await Process.run('external/l2encdec.exe',
+        ['-d', path.join(systemPath, skillGrp), outputDec]);
+    _log(result.stdout);
+    var outputTxt = path.join(
+        'data', 'skills', 'txt', skillGrp.replaceAll('.dat', '.txt'));
+    result = await Process.run('external/l2disasm.exe',
+        ['-d', 'external/ddf/hf/skillgrp.ddf', outputDec, outputTxt]);
+    _log(result.stdout);
+
+
+
   }
 
   void _log(dynamic logs) {
