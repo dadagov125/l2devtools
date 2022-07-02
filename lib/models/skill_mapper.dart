@@ -1,9 +1,9 @@
 import 'package:l2_devtools/models/skill_model.dart';
 
 abstract class Mapper<T> {
-  T read(String line);
+  T fromLine(String line);
 
-  String write(T model);
+  String toLine(T model);
 }
 
 class SkillMapper implements Mapper<SkillModel> {
@@ -29,7 +29,7 @@ class SkillMapper implements Mapper<SkillModel> {
   }
 
   @override
-  SkillModel read(String line) {
+  SkillModel fromLine(String line) {
     var split = line.split(splitter);
     return SkillModel(
       id: int.parse(split[getFieldIndex('id')]),
@@ -42,7 +42,7 @@ class SkillMapper implements Mapper<SkillModel> {
   }
 
   @override
-  String write(SkillModel model) {
+  String toLine(SkillModel model) {
     List<String> split = List.generate(fields.length, (index) => 'none');
 
     split[getFieldIndex('id')] = model.id.toString();
