@@ -10,6 +10,13 @@ class ImportSkills extends StatefulWidget {
 
 class _ImportSkillsState extends State<ImportSkills> {
   int _index = 0;
+  late TextEditingController pathCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    pathCtrl = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,24 +46,42 @@ class _ImportSkillsState extends State<ImportSkills> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          TextField(
+                            controller: pathCtrl,
+                            onChanged: (value){
+                              this.setState(() {
+                              });
+                            },
+                            decoration: InputDecoration(
+                              label: Text('Path'),
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    FilesystemPicker.open(
+                                            title: 'Select folder',
+                                            context: context,
+                                            rootDirectory: Directory('\\'),
+                                            fsType: FilesystemType.folder,
+                                            pickText: 'Select',
+                                            folderIconColor: Colors.red,
+                                            fileTileSelectMode:
+                                                FileTileSelectMode.wholeTile)
+                                        .then((value) {
+                                      pathCtrl.text=value??pathCtrl.text;
+                                    }).catchError((err) {
+                                      err.toString();
+                                    });
+                                  },
+                                  icon: Icon(Icons.folder)),
+                            ),
+                          ),
                           const Text('Content for Step 1'),
                           Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: ElevatedButton(
-                                onPressed: () {
-                                   FilesystemPicker.open(
-                                    title: 'Save to folder',
-                                    context: context,
-                                    rootDirectory: Directory.systemTemp,
-                                    fsType: FilesystemType.file,
-                                  ).then((value) {
-                                    value.toString();
-                                   }).catchError((err){
-                                     err.toString();
-                                   });
-                                  // setState(() {
-                                  //   _index = 1 + _index;
-                                  // });
+                                onPressed:pathCtrl.text.isEmpty?null: () {
+                                  setState(() {
+                                    _index = 1 + _index;
+                                  });
                                 },
                                 child: Text('Continue')),
                           )
