@@ -1,0 +1,10 @@
+{
+  "splitter": "\\t",
+  "fields": [
+    {
+      "fieldName": "id",
+      "index": 0,
+      "valueReg": "\\d+"
+    }
+  ]
+}
