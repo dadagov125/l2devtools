@@ -196,7 +196,7 @@ class _ImportSkillsState extends State<ImportSkills> {
       var outputTxt = path.join(
           'data', 'skills', 'txt', skillRuName.replaceAll('.dat', '.txt'));
       result = await Process.run('external/l2disasm.exe',
-          ['-d', 'external/ddf/hf/skillname-ru.ddf', outputDec, outputTxt]);
+          ['-d', 'config/hf/ddf/skillname-ru.ddf', outputDec, outputTxt]);
       _log(result.stdout);
     }
     if (skillNameEnEnabled) {
@@ -209,7 +209,7 @@ class _ImportSkillsState extends State<ImportSkills> {
       var outputTxt = path.join(
           'data', 'skills', 'txt', skillEnName.replaceAll('.dat', '.txt'));
       result = await Process.run('external/l2disasm.exe',
-          ['-d', 'external/ddf/hf/skillname-e.ddf', outputDec, outputTxt]);
+          ['-d', 'config/hf/ddf/skillname-e.ddf', outputDec, outputTxt]);
       _log(result.stdout);
     }
 
@@ -222,7 +222,7 @@ class _ImportSkillsState extends State<ImportSkills> {
     var outputTxt = path.join(
         'data', 'skills', 'txt', skillGrp.replaceAll('.dat', '.txt'));
     result = await Process.run('external/l2disasm.exe',
-        ['-d', 'external/ddf/hf/skillgrp.ddf', outputDec, outputTxt]);
+        ['-d', 'config/hf/ddf/skillgrp.ddf', outputDec, outputTxt]);
     _log(result.stdout);
 
 
