@@ -1,10 +1,30 @@
 {
-  "splitter": "\\t",
+  "splitter": "\t",
+  "skipFirstRow": true,
   "fields": [
     {
       "fieldName": "id",
-      "index": 0,
-      "valueReg": "\\d+"
+      "index": 0
+    },
+    {
+      "fieldName": "lvl",
+      "index": 1
+    },
+    {
+      "fieldName": "name",
+      "index": 2
+    },
+    {
+      "fieldName": "desc",
+      "index": 3
+    },
+    {
+      "fieldName": "enchantName",
+      "index": 4
+    },
+    {
+      "fieldName": "enchantDesc",
+      "index": 5
     }
   ]
 }
