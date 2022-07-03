@@ -1,8 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
+import 'package:l2_devtools/models/skill_model.dart';
 import 'package:path/path.dart' as path;
+
+import '../models/skill_mapper.dart';
+import '../services/enc_dec_service.dart';
 
 class ImportSkills extends StatefulWidget {
   @override
@@ -15,20 +20,23 @@ class _ImportSkillsState extends State<ImportSkills> {
   late TextEditingController skillNameEnDatCtrl;
   late TextEditingController skillGrpCtrl;
   late TextEditingController consoleCtrl;
-   late ScrollController consoleScrollCtrl;
+  late ScrollController consoleScrollCtrl;
 
   bool skillNameEnEnabled = true;
   bool skillNameRuEnabled = true;
 
+  final EncDecService encDecService = EncDecService.Instance();
+
   @override
   void initState() {
     super.initState();
-    pathCtrl = TextEditingController(text: 'C:\\SERVER\\salvation_patch\\system');
+    pathCtrl =
+        TextEditingController(text: 'C:\\SERVER\\salvation_patch\\system');
     skillNameRuDatCtrl = TextEditingController(text: 'skillname-ru.dat');
     skillNameEnDatCtrl = TextEditingController(text: 'skillname-e.dat');
     skillGrpCtrl = TextEditingController(text: 'skillgrp.dat');
     consoleCtrl = TextEditingController();
-    consoleScrollCtrl =ScrollController();
+    consoleScrollCtrl = ScrollController();
   }
 
   @override
@@ -119,12 +127,12 @@ class _ImportSkillsState extends State<ImportSkills> {
             )),
             Expanded(
                 child: SingleChildScrollView(
-                  controller: consoleScrollCtrl,
+              controller: consoleScrollCtrl,
               child: Column(
                 children: [
                   Container(
                     padding: EdgeInsets.all(20),
-                    child:TextField(
+                    child: TextField(
                       // scrollController: consoleScrollCtrl,
                       controller: consoleCtrl,
                       enabled: false,
@@ -187,54 +195,91 @@ class _ImportSkillsState extends State<ImportSkills> {
   void _import() async {
     var systemPath = pathCtrl.text;
     if (skillNameRuEnabled) {
-      var skillRuName = skillNameRuDatCtrl.text;
+      var filename = path.setExtension(skillNameRuDatCtrl.text, '');
 
-      var outputDec = path.join('data', 'skills', 'dec', skillRuName);
-      var result = await Process.run('external/l2encdec.exe',
-          ['-d', path.join(systemPath, skillRuName), outputDec]);
-      _log(result.stdout);
-      var outputTxt = path.join(
-          'data', 'skills', 'txt', skillRuName.replaceAll('.dat', '.txt'));
-      result = await Process.run('external/l2disasm.exe',
-          ['-d', 'config/hf/ddf/skillname-ru.ddf', outputDec, outputTxt]);
-      _log(result.stdout);
+      var outputDec = path.join('data', 'skills', 'dec', filename);
+      var inputEnc = path.join(systemPath, filename);
+      var log = await encDecService.decode(inputEnc, outputDec);
+      _log(log);
+
+      var outputTxt = path.join('data', 'skills', 'txt', filename);
+
+      var ddf = path.join('config', 'hf', 'ddf', 'skillname-ru.ddf');
+      log = await encDecService.disasm(ddf, outputDec, outputTxt);
+      _log(log);
+
+
+      ////////////////
+
+      List<SkillModel> skills = [];
+
+
+      var jsonStr = File('config/hf/mappers/skillname.json').readAsStringSync();
+      var map = jsonDecode(jsonStr);
+      var mapper = SkillMapper.fromJson(map);
+
+
+      var file = File(path.setExtension(outputTxt, '.txt'));
+      var list = file.readAsLinesSync();
+      for (var i = 0; i < list.length; i++) {
+        if (i == 0 && mapper.skipFirstRow) continue;
+        var line = list[i];
+        var model = mapper.fromLine(line);
+        skills.add(model);
+      }
     }
-    if (skillNameEnEnabled) {
-      var skillEnName = skillNameEnDatCtrl.text;
+    // if (skillNameEnEnabled) {
+    //   var filename = skillNameEnDatCtrl.text;
+    //
+    //   var outputDec = path.join('data', 'skills', 'dec', filename);
+    //   var inputEnc = path.join(systemPath, filename);
+    //   var log = await encDecService.decode(inputEnc, outputDec);
+    //   _log(log);
+    //
+    //   var outputTxt = path.join('data', 'skills', 'txt', filename);
+    //
+    //   var ddf = path.join('config', 'hf', 'ddf', 'skillname-e.ddf');
+    //   log = await encDecService.disasm(ddf, outputDec, outputTxt);
+    //   _log(log);
+    // }
 
-      var outputDec = path.join('data', 'skills', 'dec', skillEnName);
-      var result = await Process.run('external/l2encdec.exe',
-          ['-d', path.join(systemPath, skillEnName), outputDec]);
-      _log(result.stdout);
-      var outputTxt = path.join(
-          'data', 'skills', 'txt', skillEnName.replaceAll('.dat', '.txt'));
-      result = await Process.run('external/l2disasm.exe',
-          ['-d', 'config/hf/ddf/skillname-e.ddf', outputDec, outputTxt]);
-      _log(result.stdout);
+    var filename = skillGrpCtrl.text;
+
+
+    var outputDec = path.join('data', 'skills', 'dec', filename);
+    var inputEnc = path.join(systemPath, filename);
+    var log = await encDecService.decode(inputEnc, outputDec);
+    _log(log);
+
+    var outputTxt = path.join('data', 'skills', 'txt', filename);
+
+    var ddf = path.join('config', 'hf', 'ddf', 'skillgrp.ddf');
+    log = await encDecService.disasm(ddf, outputDec, outputTxt);
+    _log(log);
+
+    var jsonStr = File('config/hf/mappers/skillgrp.json').readAsStringSync();
+    var map = jsonDecode(jsonStr);
+    var mapper = SkillGrpMapper.fromJson(map);
+
+    var file = File(path.setExtension(outputTxt, '.txt'));
+    var list = file.readAsLinesSync();
+    List<SkillGrpModel> grp=[];
+    for (var i = 0; i < list.length; i++) {
+      if (i == 0 && mapper.skipFirstRow) continue;
+      var line = list[i];
+      var model = mapper.fromLine(line);
+      grp.add(model);
     }
 
-    var skillGrp = skillGrpCtrl.text;
-
-    var outputDec = path.join('data', 'skills', 'dec', skillGrp);
-    var result = await Process.run('external/l2encdec.exe',
-        ['-d', path.join(systemPath, skillGrp), outputDec]);
-    _log(result.stdout);
-    var outputTxt = path.join(
-        'data', 'skills', 'txt', skillGrp.replaceAll('.dat', '.txt'));
-    result = await Process.run('external/l2disasm.exe',
-        ['-d', 'config/hf/ddf/skillgrp.ddf', outputDec, outputTxt]);
-    _log(result.stdout);
-
-
-
+    var last = grp.last;
+    last.toString();
   }
 
   void _log(dynamic logs) {
-    setState((){
+    setState(() {
       consoleCtrl.text += logs.toString();
       consoleScrollCtrl.animateTo(consoleScrollCtrl.position.maxScrollExtent,
           duration: Duration(milliseconds: 50), curve: Curves.linear);
     });
-
   }
 }

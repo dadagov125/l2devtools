@@ -1,0 +1,94 @@
+{
+  "splitter": "\t",
+  "skipFirstRow": true,
+  "fields": [
+    {
+      "fieldName": "id",
+      "index": 0
+    },
+    {
+      "fieldName": "lvl",
+      "index": 1
+    },
+    {
+      "fieldName": "skillPosition",
+      "index": 2
+    },
+    {
+      "fieldName": "operateType",
+      "index": 3
+    },
+    {
+      "fieldName": "mpConsume",
+      "index": 4
+    },
+    {
+      "fieldName": "castRange",
+      "index": 5
+    },
+    {
+      "fieldName": "castStyle",
+      "index": 6
+    },
+    {
+      "fieldName": "hitTime",
+      "index": 7
+    },
+    {
+      "fieldName": "isMagic",
+      "index": 8
+    },
+    {
+      "fieldName": "animation",
+      "index": 9
+    },
+    {
+      "fieldName": "skillVisualEffect",
+      "index": 10
+    },
+    {
+      "fieldName": "icon",
+      "index": 11
+    },
+    {
+      "fieldName": "iconPanel",
+      "index": 12
+    },
+    {
+      "fieldName": "debuff",
+      "index": 13
+    },
+    {
+      "fieldName": "enchanted",
+      "index": 14
+    },
+    {
+      "fieldName": "enchantSkillLevel",
+      "index": 15
+    },
+    {
+      "fieldName": "enchantIcon",
+      "index": 16
+    },
+    {
+      "fieldName": "hpConsume",
+      "index": 17
+    },
+    {
+      "fieldName": "rumbleSelf",
+      "index": 18
+    },
+    {
+      "fieldName": "rumbleTarget",
+      "index": 19
+    },
+    {
+      "fieldName": "gaugeTime",
+      "index": 20
+    },
+    {
+      "fieldName": "additionalTag",
+      "index": 21
+    }
+  ]
+}
