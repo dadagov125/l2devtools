@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:l2_devtools/widgets/import_skills.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required this.title}) : super(key: key);
+  const HomeScreen();
 
-  final String title;
+  final String title='';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
