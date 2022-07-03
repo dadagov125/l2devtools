@@ -8,8 +8,8 @@ ORD_IGNORE = 0;
 {
 	UINT skill_id;
 	UINT skill_level;
+	LONG skill_position;
 	UINT operate_type;
-	UINT MagicType;
 	UINT mp_consume;
 	INT cast_range;
 	UINT cast_style;
@@ -19,13 +19,13 @@ ORD_IGNORE = 0;
 	UNICODE skill_visual_effect;
 	UNICODE icon;
 	UNICODE icon_panel;
+	UINT debuff;
 	UINT enchanted;
 	UINT enchant_skill_level;
-	UINT hp_consume;
 	ASCF enchant_icon;
-	UINT unk2;
+	UINT hp_consume;
 	UINT rumble_self;
 	UINT rumble_target;
-	UINT GaugeTime;
+	FLOAT GaugeTime;
 	ASCF AdditionalTag;
 }
